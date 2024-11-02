@@ -1,0 +1,108 @@
+<app-header title="Modificar perfil"> </app-header>
+
+
+<ion-content class="fondo">
+
+
+    <!---------------------------------------------------------->
+<!----------------------PERFIL PROFESIONAL------------------>
+<ion-card class="ion-card">
+    <ion-card-header>
+      <h2>PERFIL PROFESIONAL</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Universidad</ion-label>
+          <ion-input placeholder="Ingrese universidad de egreso"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Año de egreso</ion-label>
+          <ion-input type="number" placeholder="Año de egreso"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">País de registro</ion-label>
+          <ion-input placeholder="Ingrese país donde se otorgó"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Especialidad</ion-label>
+          <ion-input placeholder="Ingrese especialidad"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  
+  <!---------------------------------------------------------->
+  <!---------------------------------------------------------->
+<!----------------------DATOS LABORALES--------------------->
+
+<ion-card class="ion-card">
+    <ion-card-header>
+      <h2>DATOS LABORALES</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <!-- Pregunta si atiende en consulta -->
+        <ion-item>
+          <ion-label>¿Atiendes en clínica?</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="VatiendeClinica" (ionChange)="toggleClinica()"></ion-toggle>
+        </ion-item>
+
+        <!-- Sección de direcciones, visible solo si atiende -->
+        <div *ngIf="VatiendeClinica">
+          <ng-container *ngFor="let Vclinica of Vclinicas; let i = index">
+            <ion-item>
+              <ion-label>Clínica {{ i + 1 }}:</ion-label>
+              <ion-input placeholder="Ingrese nombre clínica"></ion-input>
+              <ion-icon name="trash-outline" slot="end" (click)="eliminarClinica(i)"></ion-icon>
+            </ion-item>
+          </ng-container>
+          <ion-button (click)="agregarClinica()">Agregar nueva clínica</ion-button>
+        </div>
+
+        <!-- Atiende a domicilio? solo si o no-->
+        <ion-item>
+          <ion-label>¿Atiendes a domicilio?</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="VatiendeParticular"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+<!---------------------------------------------------------->
+<!-------------------------IMAGENES ------------------------>
+<ion-card class="ion-card">
+  <ion-card-header>
+    <h2> Imágenes</h2>
+  </ion-card-header>
+  <ion-card-content>
+    <!-- Imagen de Perfil -->
+    <ion-item>
+      <ion-label position="stacked">Imagen de Perfil</ion-label>
+
+      <div class="preview-container">
+        <ng-container >
+          <img alt="Imagen de Perfil" />
+        </ng-container>
+        <ng-template #noPerfil>
+          <ion-icon name="person-circle-outline" size="large"></ion-icon>
+        </ng-template>
+      </div>
+      <ion-icon name="camera" slot="end" ></ion-icon>
+      <ion-icon name="cloud-upload-outline" slot="end" ></ion-icon>
+      <input type="file" #fileInputPerfil hidden />
+
+    </ion-item>
+
+    <!-- Firma Profesional -->
+
+  </ion-card-content>
+</ion-card>
+
+
+<!---------------------------------------------------------->
+
+</ion-content>
