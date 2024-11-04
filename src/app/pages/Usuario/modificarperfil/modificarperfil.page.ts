@@ -1,28 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
+import { CargandoService } from 'src/services/cargando/cargando.service';
+import { FirebaseService } from 'src/services/firebase.service';
 
 @Component({
   selector: 'app-modificarperfil',
   templateUrl: './modificarperfil.page.html',
   styleUrls: ['./modificarperfil.page.scss'],
 })
+
 export class ModificarperfilPage  {
+
+  form = new FormGroup({
+    imagenPerfil: new FormControl('',[Validators.required]),
+  })
+
+
+firebaseS = inject(FirebaseService);
+cargandoS = inject(CargandoService);
 
   tipoCuenta: string = ''; // tipo de cuenta
   VatiendeClinica: boolean = false; // Almacena si atiende en consulta
   Vclinicas: string[] = []; // Almacena las clínicas
   VatiendeParticular: boolean = false;
 
-  constructor(
-    private router: Router,
-    private toastController: ToastController,
-    private popoverController: PopoverController,
-
-  ) { }
 
   ngOnInit() {
+  }
+
+  async tomarImagen(){
+   const dataUrl = (await this.cargandoS.tomarFoto('Foto de perfil')).dataUrl;
+    this.form.controls.imagenPerfil.setValue(dataUrl);
   }
 
   // -----------------------------------------------------------------------------------------
@@ -42,17 +53,6 @@ export class ModificarperfilPage  {
     this.Vclinicas.splice(index, 1); 
   }
 
-  // Método para mostrar toast
-  private  async mostrarToast(mensaje: string, color: string = 'danger') {
-      const toast = await this.toastController.create({
-        message: mensaje,
-        position: 'middle',
-        duration: 3000,
-        color: color
-      });
-      toast.present();
-    }
-  
 
 }
 

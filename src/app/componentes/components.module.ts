@@ -8,6 +8,8 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { NofoundComponent } from './nofound/nofound.component';
+import { NewtutorComponent } from './newtutor/newtutor.component';
+
 
 
 
@@ -18,7 +20,8 @@ import { NofoundComponent } from './nofound/nofound.component';
     LogoComponent,
     FormularioComponent,
     TerminosycondicionesComponent,
-    NofoundComponent
+    NofoundComponent,
+    NewtutorComponent
   ],
   exports:[
     HeaderComponent,
@@ -26,7 +29,8 @@ import { NofoundComponent } from './nofound/nofound.component';
     FormularioComponent,
     ReactiveFormsModule,
     TerminosycondicionesComponent,
-    NofoundComponent
+    NofoundComponent,
+    NewtutorComponent,
   ],
 
   imports: [

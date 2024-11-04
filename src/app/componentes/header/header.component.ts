@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { CargandoService } from 'src/services/cargando/cargando.service';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,18 @@ export class HeaderComponent  implements OnInit {
 
       // para darle parametros
       @Input() title!: string;
+      @Input() backButton!: string;
+      @Input() isModal!:boolean;
 
-  constructor() { }
+cargandoS = inject(CargandoService);
 
   ngOnInit() {}
+
+
+  dismissModal(){
+    this.cargandoS.dismissmodal();
+    
+
+  }
 
 }

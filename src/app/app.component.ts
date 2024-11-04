@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component ,inject} from '@angular/core';
 import { AlertController,Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { FirebaseService } from 'src/services/firebase.service';
+import { CargandoService } from 'src/services/cargando/cargando.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,10 @@ export class AppComponent {
     private platform: Platform,
   ) {}
 
-
+  firebaseS = inject(FirebaseService);
+  cargandoS = inject(CargandoService);
+ 
+ 
     // --------------------------------------------------------------
   // Alerta de ayuda
   async showHelpAlert() {
@@ -60,7 +65,7 @@ export class AppComponent {
         {
           text: 'Sí',
           handler: () => {
-            this.router.navigate(['/login']);
+            this.firebaseS.signOut();
           }
         }
       ]

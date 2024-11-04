@@ -1,5 +1,36 @@
 <app-header title="TUTORES"> </app-header>
 
 <ion-content class="fondo">
+    <!-- Agregar Tutor -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="agregartutor()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <!-- Agregar Tutor -->
 
+    <ion-card class="ion-card">
+        <ion-card-title>
+            <h2>Lista de tutores</h2>
+        </ion-card-title>
+        <ion-card-content>
+            <ion-list>
+                <ion-item-sliding *ngFor="let tut of tutores">
+                    <ion-item>
+                        <ion-label>
+                            <h3>{{tut.nombre}} {{tut.apellido}}</h3>
+                            <p>Teléfono: {{tut.telefono}}</p>
+                            <p>Dirección: {{tut.direccion}}</p>
+                            <p>Correo: {{tut.email}}</p>
+                        </ion-label>
+                        <ion-buttons slot="end">
+                            <ion-button (click)="editarTutor()">
+                                <ion-icon name="create-outline"></ion-icon>
+                            </ion-button>
+                        </ion-buttons>
+                    </ion-item>
+                </ion-item-sliding>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
