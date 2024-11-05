@@ -31,36 +31,40 @@ export class NewtutorComponent  implements OnInit {
   }
 
 
-  async submit(){
-    if (this.form.valid){
-      let path = `users/${this.user.uid}/tutores`
 
+  async submit() {
+    if (this.form.valid) {
+      const path = `users/${this.user.uid}/tutores`;
+  
       const loading = await this.cargandoS.loading();
-      await loading.present;
-
-      delete this.form.value.id;
-
-      this.firebaseS.agregarTutor(path, this.form.value).then(async res =>{
-        this.cargandoS.dismissmodal({success: true});
+      await loading.present();
+  
+      delete this.form.value.id; // Elimina la propiedad id si no es necesaria
+  
+      try {
+        const res = await this.firebaseS.agregarTutor(path, this.form.value);
+        await loading.dismiss();
+        
+        // Cierra el modal y devuelve los datos del nuevo tutor
+        this.cargandoS.dismissmodal({ success: true, tutor: this.form.value });
+        
         this.cargandoS.presentToast({
           message: 'Nuevo tutor agregado',
           duration: 1500,
           color: 'success',
-          position:'middle'
-
-        })
-
-      }).catch(error =>{
-        console.log(error);
-
-
-      })
-
-  
-
+          position: 'middle',
+        });
+        
+      } catch (error) {
+        await loading.dismiss(); // Asegúrate de que el loading se cierre
+        console.error(error);
+        this.cargandoS.presentToast({
+          message: 'Error al agregar el tutor',
+          duration: 1500,
+          color: 'danger',
+          position: 'middle',
+        });
+      }
     }
-    
   }
-
-
 }

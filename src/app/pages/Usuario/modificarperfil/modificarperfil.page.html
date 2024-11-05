@@ -95,11 +95,11 @@
   <ion-card-content>
     <!-- Imagen de Perfil -->
     <ion-item>
-      <ion-label position="stacked">Imagen de Perfil</ion-label>
+      <ion-label position="stacked">Firma profesional</ion-label>
 
       <div class="preview-container">
         <ng-container >
-          <img alt="Imagen de Perfil" />
+          <img alt="Firma" />
         </ng-container>
         <ng-template #noPerfil>
           <ion-icon name="person-circle-outline" size="large"></ion-icon>
@@ -116,6 +116,13 @@
   </ion-card-content>
 </ion-card>
 
+<ion-button  expand="block" fill="ios" shape="round">
+  Guardar cambios
+</ion-button>
+
+<ion-button  expand="block" fill="clear" shape="round" [routerLink]="['/perfil']"  >
+  Salir sin guardar
+</ion-button>
 
 <!---------------------------------------------------------->
 

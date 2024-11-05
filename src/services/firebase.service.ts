@@ -7,6 +7,8 @@ import { getFirestore, setDoc, doc, getDoc, addDoc,collection, collectionData,qu
 import { CargandoService } from './cargando/cargando.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getStorage, uploadString,ref, getDownloadURL} from 'firebase/storage';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 
@@ -19,6 +21,16 @@ auth = inject(AngularFireAuth);
 firestore = inject(AngularFirestore);
 cargandoS = inject(CargandoService);
 storage = inject(AngularFireStorage);
+
+  // Observable para el estado de autenticación
+  isAuthenticated$ = new BehaviorSubject<boolean>(false);
+
+  constructor(private router: Router) {
+    // Actualiza el observable isAuthenticated$ cuando cambia el estado de autenticación
+    this.auth.authState.subscribe(user => {
+      this.isAuthenticated$.next(!!user);
+    });
+  }
 
 
 //--------------------------------------------------------- VETERINARIO
@@ -59,6 +71,13 @@ setDocument(path: string, data: any) {
     return (await getDoc(doc(getFirestore(), path))).data();
   }
 
+//obtener datos del usuario actual desde firebase
+  async getUserData(uid: string) {
+    const docRef = doc(getFirestore(), `users/${uid}`);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists() ? docSnap.data() : null;
+  }
+
   //---------------------------------------------------------
   //--------------------------------------------------------- TUTOR
   //--------------------------------------------------------- TUTOR
@@ -75,9 +94,9 @@ setDocument(path: string, data: any) {
     })
   }
 
-  mostrarTutores(path: string, collectionQuery?:any){
-    const ref = collection(getFirestore(),path);
-    return collectionData(query(ref,collectionQuery), {idField: 'id'});
-
+  mostrarTutores(path: string) {
+    const ref = collection(getFirestore(), path);
+    return collectionData(ref, { idField: 'id' });
   }
+  
 }

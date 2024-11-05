@@ -8,7 +8,7 @@
       <ion-button (click)="dismissModal()"*ngIf="isModal"> <ion-icon name="close-circle-outline"></ion-icon></ion-button>
     </ion-buttons>
 
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="showMenuButton">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>

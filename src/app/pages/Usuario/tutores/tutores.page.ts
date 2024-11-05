@@ -30,17 +30,18 @@ return this.cargandoS.getFromLocalStorage('user');
  }
 
 // mostrar tutores
-  cargarTutores(){
-          let path = `users/${this.user().uid}/tutores`;
-
-         let sub= this.firebaseS.mostrarTutores(path).subscribe({
-            next: (res:any) =>{
-              this.tutores =res;
-              sub.unsubscribe();
-            }
-          })
-
-  }
+cargarTutores() {
+  let path = `users/${this.user().uid}/tutores`;
+  
+  this.firebaseS.mostrarTutores(path).subscribe({
+    next: (res: any) => {
+      this.tutores = res; 
+    },
+    error: (err) => {
+      console.error('Error al cargar tutores: ', err);
+    }
+  });
+}
 
 
   // agregar tutor
@@ -49,15 +50,18 @@ return this.cargandoS.getFromLocalStorage('user');
       component: NewtutorComponent,
       cssClass: 'modaltutor',
     });
-        // Espera a que se cierre el modal y verifica si se agregó un tutor
-        modal.onDidDismiss().then((result) => {
-          if (result.data?.success) {
-            this.cargarTutores(); // Recargar la lista de tutores si se agregó un nuevo tutor
-          }
-        });
+
+    // Espera a que se cierre el modal y verifica si se agregó un tutor
+    modal.onDidDismiss().then((result) => {
+      if (result.data?.success) {
+        const newTutor = result.data.tutor; // Obtén los datos del nuevo tutor
+        this.cargarTutores(); // O actualiza la lista de tutores
       }
+    });
+  }
 
-    async editarTutor(){
 
-    }
+  async editarTutor() {
+
+  }
 }
