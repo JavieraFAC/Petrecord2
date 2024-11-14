@@ -12,13 +12,13 @@
       <ion-row>
         <!-- Columna para la imagen del perfil -->
         <ion-col size="auto" class="img-perfil">
-          <img  alt="Foto de perfil" class="profile-img">
+          <img src="ruta_de_la_imagen" alt="Foto de perfil" class="profile-img">
         </ion-col>
         
         <!-- Columna para los datos del perfil -->
         <ion-col size="auto" class="datos-medico">
-          <ion-card-title class="nombre"></ion-card-title>
-          <p class="run"></p>
+          <ion-card-title class="nombre">{{ nombre }} {{apellidos}}</ion-card-title>
+          <p class="run">{{ run }}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -45,7 +45,7 @@
     </ion-card>
   </ion-col>
   <!---TUTORES--->
-  <!--- CITAS--->
+  <!--- API--->
         <ion-col size="6">
           <ion-card class="ion-card-importantes" [routerLink]="['/api']" >
             <ion-card-header>
@@ -59,18 +59,32 @@
             </ion-card-content>
           </ion-card>
         </ion-col>
-  <!--- CITAS--->
+  <!--- API--->
+    <!---CONFIGURACION--->
+    <ion-col size="12">
+      <ion-card  class="ion-card-otros" [routerLink]="['']" >
+        <ion-card-header>
+          <div>
+            <ion-card-title>CITAS</ion-card-title>
+          </div>
+        </ion-card-header>
+        <ion-card-content class="texto">
+          Agrega una nueva cita medica
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!---CONFIGURACION--->
   <!---CONFIGURACION--->
   <ion-col size="12">
     <ion-card  class="ion-card-otros" [routerLink]="['/configurarcuenta']" >
       <ion-card-header>
         <div>
           <ion-icon name="settings-outline" class="icono"></ion-icon>
-          <ion-card-title>Configuración</ion-card-title>
+          <ion-card-title>Preferencias</ion-card-title>
         </div>
       </ion-card-header>
       <ion-card-content class="texto">
-        Modifica tus datos laborales
+        Modifica tus preferencias de atención
       </ion-card-content>
     </ion-card>
   </ion-col>
