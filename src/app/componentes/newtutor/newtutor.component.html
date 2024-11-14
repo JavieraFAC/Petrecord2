@@ -1,75 +1,47 @@
-
 <ion-content class="modal-content">
-
     <div class="form-container">
+      <ion-card class="ion-card">
         <form [formGroup]="form" (ngSubmit)="submit()" (keypress.enter)="submit()">
-            <!---------------NOMBRE------------------->
-            <app-formulario
-                [control]="form.controls.nombre"
-                autocomplete="nombre"
-                type="text"
-                label="Nombre"
-            ></app-formulario>
-
-            <div class="validators" *ngIf="form.controls.nombre.errors && form.controls.nombre.touched">
-                <div *ngIf="form.controls.nombre.errors?.['required']">Debes ingresar tú nombre</div>
-                <div *ngIf="form.controls.nombre.errors?.['minlength']">Ingresa un nombre válido</div>
-            </div>
-            <!---------------APELLIDOS------------------->
-            <app-formulario
-                [control]="form.controls.apellido"
-                autocomplete="apellido"
-                type="text"
-                label="Apellido"
-            ></app-formulario>
-
-            <div class="validators" *ngIf="form.controls.apellido.errors && form.controls.apellido.touched">
-                <div *ngIf="form.controls.apellido.errors?.['required']">Debes ingresar el apellido</div>
-                <div *ngIf="form.controls.apellido.errors?.['minlength']">Ingresa un apellido válido</div>
-            </div>
-
-            <!---------------DIRECCION------------------->
-            <app-formulario
-                [control]="form.controls.direccion"
-                autocomplete="direccion"
-                type="text"
-                label="Ingrese direccion"
-            ></app-formulario>
-
-            <div class="validators" *ngIf="form.controls.direccion.errors && form.controls.direccion.touched">
-                <div *ngIf="form.controls.direccion.errors?.['required']">Debes ingresar dirección</div>
-                <div *ngIf="form.controls.direccion.errors?.['email']">Ingresa una dirección válida</div>
-            </div>
-            <!---------------TELEFONO--------------------->
-            <app-formulario
-                [control]="form.controls.telefono"
-                autocomplete="tel"
-                type="number"
-                label="Teléfono"
-            ></app-formulario>
-
-            <div class="validators" *ngIf="form.controls.telefono.errors && form.controls.telefono.touched">
-                <div *ngIf="form.controls.telefono.errors?.['required']">El teléfono es requerido.</div>
-                <div *ngIf="form.controls.telefono.errors?.['min']">El teléfono debe tener 8 números</div>
-            </div>
-
-            <!---------------CORREO------------------->
-            <app-formulario
-                [control]="form.controls.email"
-                autocomplete="email"
-                type="email"
-                label="Correo electrónico"
-            ></app-formulario>
-
-            <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
-                <div *ngIf="form.controls.email.errors?.['required']">Debes ingresar correo electrónico</div>
-                <div *ngIf="form.controls.email.errors?.['email']">Ingresa un correo válido</div>
-            </div>
-
-            <ion-button type="submit" expand="block" shape="round" style="padding: 20px;">
-                Guardar tutor
-            </ion-button>
+          <h2>Datos Tutor</h2>
+          
+          <app-formulario [control]="form.controls.nombre" autocomplete="nombre" type="text" label="Nombre"></app-formulario>
+          <app-formulario [control]="form.controls.apellido" autocomplete="apellido" type="text" label="Apellido"></app-formulario>
+          <app-formulario [control]="form.controls.direccion" autocomplete="direccion" type="text" label="Ingrese direccion"></app-formulario>
+          <app-formulario [control]="form.controls.telefono" autocomplete="tel" type="number" label="Teléfono"></app-formulario>
+          <app-formulario [control]="form.controls.email" autocomplete="email" type="email" label="Correo electrónico"></app-formulario>
+  
+  
+          <ion-button type="submit" expand="block" shape="round" style="padding: 20px;">
+            Guardar tutor
+          </ion-button>
         </form>
-    </div> <!-- Fin del div form-container -->
+      </ion-card>
 
-</ion-content>
+      <div>
+        <ion-card class="ion-card">
+          <div *ngFor="let mascota of mascotas; let i = index" class="mascota-form">
+            <ion-item>
+              <ion-label position="floating">Nombre de la mascota</ion-label>
+              <ion-input [(ngModel)]="mascota.nombre" placeholder="Nombre"></ion-input>
+            </ion-item>
+            
+            <!-- Selector de especie con validación -->
+            <ion-item>
+              <ion-label position="floating">Especie de la mascota</ion-label>
+              <ion-input [(ngModel)]="mascota.especie" placeholder="Especie"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Fecha de Nacimiento</ion-label>
+              <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="mascota.fechaNacimiento" placeholder="Selecciona la fecha"></ion-datetime>
+            </ion-item>
+            
+            <ion-button color="danger" (click)="eliminarMascota(i)">Eliminar Mascota</ion-button>
+          </div>
+          
+          <ion-button (click)="agregarMascota()">Agregar Mascota</ion-button>
+        </ion-card>
+      </div>
+    </div>
+  </ion-content>
+  

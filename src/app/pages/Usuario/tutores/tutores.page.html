@@ -22,9 +22,17 @@
                             <p>Teléfono: {{tut.telefono}}</p>
                             <p>Dirección: {{tut.direccion}}</p>
                             <p>Correo: {{tut.email}}</p>
+                            <div *ngIf="tut.mascotas?.length">
+                                <h4>Mascotas:</h4>
+                                <ul>
+                                    <li *ngFor="let mascota of tut.mascotas">
+                                        {{mascota.nombre}} - {{mascota.especie}}
+                                      </li>
+                                </ul>
+                              </div>
                         </ion-label>
                         <ion-buttons slot="end">
-                            <ion-button (click)="editarTutor()">
+                            <ion-button (click)="editarTutor(tut)">
                                 <ion-icon name="create-outline"></ion-icon>
                             </ion-button>
                         </ion-buttons>

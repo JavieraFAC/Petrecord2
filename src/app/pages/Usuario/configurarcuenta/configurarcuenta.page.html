@@ -1,6 +1,23 @@
-<app-header title="Configurar cuenta"> </app-header>
-
-
-<ion-content class="fondo">
-
-</ion-content>
+<app-header title="Configuración"> </app-header>
+  
+  <ion-content>
+    <ion-card>
+      <ion-card-header>
+        <h2>Animales</h2>
+        <ion-card-subtitle>Selecciona los animales que atiendes</ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let especie of especies">
+            <ion-label>{{ especie.nombre }}</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="especie.seleccionada"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  
+    <!-- Botón para guardar las selecciones -->
+    <ion-button expand="block" (click)="guardarSeleccion()">Guardar cambios</ion-button>
+  </ion-content>
+  

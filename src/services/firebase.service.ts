@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { Usuario } from 'src/app/models/usuario.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, addDoc,collection, collectionData,query} from '@angular/fire/firestore';
 import { CargandoService } from './cargando/cargando.service';
@@ -10,6 +9,8 @@ import { getStorage, uploadString,ref, getDownloadURL} from 'firebase/storage';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
+import { Usuario } from 'src/app/models/usuario.model';
+
 
 
 @Injectable({
@@ -17,21 +18,21 @@ import { Router } from '@angular/router';
 })
 export class FirebaseService {
 
-auth = inject(AngularFireAuth);
-firestore = inject(AngularFirestore);
-cargandoS = inject(CargandoService);
-storage = inject(AngularFireStorage);
-
-  // Observable para el estado de autenticación
-  isAuthenticated$ = new BehaviorSubject<boolean>(false);
-
-  constructor(private router: Router) {
-    // Actualiza el observable isAuthenticated$ cuando cambia el estado de autenticación
-    this.auth.authState.subscribe(user => {
-      this.isAuthenticated$.next(!!user);
-    });
-  }
-
+  auth = inject(AngularFireAuth);
+  firestore = inject(AngularFirestore);
+  cargandoS = inject(CargandoService);
+  storage = inject(AngularFireStorage);
+  
+    // Observable para el estado de autenticación
+    isAuthenticated$ = new BehaviorSubject<boolean>(false);
+  
+    constructor(private router: Router) {
+      // Actualiza el observable isAuthenticated$ cuando cambia el estado de autenticación
+      this.auth.authState.subscribe(user => {
+        this.isAuthenticated$.next(!!user);
+      });
+    }
+  
 
 //--------------------------------------------------------- VETERINARIO
 //--------------------------------------------------------- VETERINARIO
@@ -53,15 +54,16 @@ signUp(usuario:Usuario){
 updateUser(displayName: string){
   return updateProfile(getAuth().currentUser, {displayName})
 }
-
+// cerrar sesion
 signOut(){
   getAuth().signOut();
   localStorage.removeItem('users');
+  this.isAuthenticated$.next(false); 
   this.cargandoS.routerLink('/login');
 }
 
-// Base de datos
 
+// Base de datos
 setDocument(path: string, data: any) {
   return setDoc(doc(getFirestore(),path),data);
 
@@ -83,9 +85,19 @@ setDocument(path: string, data: any) {
   //--------------------------------------------------------- TUTOR
 
 
-  agregarTutor(path: string, data: any){
-    return addDoc(collection(getFirestore(), path), data);
+  async agregarTutor(uid: string, tutorData: any) {
+    const path = `users/${uid}/tutores`;
+    return this.firestore.collection(path).add(tutorData);
+  }
 
+  async editarTutor(uid: string, tutorId: string, tutorData: any) {
+    const path = `users/${uid}/tutores/${tutorId}`;
+    return this.firestore.doc(path).update(tutorData);
+  }
+
+  mostrarTutores(path: string) {
+    const ref = collection(getFirestore(), path);
+    return collectionData(ref, { idField: 'id' });
   }
 
   async uploadImagen(path: string, data_url:string){
@@ -94,9 +106,10 @@ setDocument(path: string, data: any) {
     })
   }
 
-  mostrarTutores(path: string) {
-    const ref = collection(getFirestore(), path);
-    return collectionData(ref, { idField: 'id' });
-  }
+
+  //------------------------------------------------------- CONFIGURACION
+  //------------------------------------------------------- CONFIGURACION
   
+
+//-------------------------------------------------------**
 }

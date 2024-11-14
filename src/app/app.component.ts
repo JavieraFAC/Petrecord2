@@ -40,7 +40,7 @@ export class AppComponent {
           }
         },
         {
-          text: 'Aceptar',
+          text: 'Salir',
           role: 'cancel'
         }
       ]

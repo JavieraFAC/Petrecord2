@@ -61,7 +61,18 @@ cargarTutores() {
   }
 
 
-  async editarTutor() {
-
+  async editarTutor(tutor: Tutor) {
+    const modal = await this.cargandoS.presentModal({
+      component: NewtutorComponent,
+      componentProps: { tutor }, // Pasa el tutor a editar
+      cssClass: 'modaltutor',
+    });
+  
+    modal.onDidDismiss().then((result) => {
+      if (result.data?.success) {
+        this.cargarTutores(); // Recargar la lista de tutores después de editar
+      }
+    });
   }
+  
 }
