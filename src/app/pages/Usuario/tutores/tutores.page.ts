@@ -29,7 +29,7 @@ return this.cargandoS.getFromLocalStorage('user');
   this.cargarTutores();
  }
 
-// mostrar tutores
+// mostrar los tutores agregados
   cargarTutores(){
           let path = `users/${this.user().uid}/tutores`;
 

@@ -30,7 +30,7 @@ import { NewtutorComponent } from './newtutor/newtutor.component';
     ReactiveFormsModule,
     TerminosycondicionesComponent,
     NofoundComponent,
-    NewtutorComponent,
+    NewtutorComponent
   ],
 
   imports: [

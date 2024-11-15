@@ -9,58 +9,57 @@ import { FirebaseService } from 'src/services/firebase.service';
   templateUrl: './newtutor.component.html',
   styleUrls: ['./newtutor.component.scss'],
 })
-export class NewtutorComponent  implements OnInit {
+export class NewtutorComponent implements OnInit {
 
   form = new FormGroup({
     id: new FormControl(''),
-    nombre: new FormControl('',[Validators.required, Validators.minLength(3)]),
-    apellido: new FormControl('',[Validators.required, Validators.minLength(3)]),
-    direccion: new FormControl('',[Validators.required]),
-    telefono: new FormControl('',[Validators.required, Validators.min(8)]),
-    email: new FormControl(''),
-  })
+    nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    apellido: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    direccion: new FormControl('', [Validators.required]),
+    telefono: new FormControl('', [Validators.required, Validators.min(8)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+  });
 
- firebaseS = inject(FirebaseService);
- cargandoS = inject(CargandoService);
+  firebaseS = inject(FirebaseService);
+  cargandoS = inject(CargandoService);
 
- user = {} as Usuario;
+  user = {} as Usuario;
 
   ngOnInit() {
-
+    // Obtener el usuario del almacenamiento local
     this.user = this.cargandoS.getFromLocalStorage('user');
   }
 
+  async submit() {
+    if (this.form.valid) {
 
-  async submit(){
-    if (this.form.valid){
-      let path = `users/${this.user.uid}/tutores`
-
+      let path = `users/${this.user.uid}/tutores`;
       const loading = await this.cargandoS.loading();
-      await loading.present;
+      await loading.present();
+      
+  //  delete this.form.value.id ;
 
-      delete this.form.value.id;
+        this.firebaseS.agregarTutor(path, this.form.value).then(async res => {
+          this.cargandoS.dismissmodal({success: true});
 
-      this.firebaseS.agregarTutor(path, this.form.value).then(async res =>{
-        this.cargandoS.dismissmodal({success: true});
-        this.cargandoS.presentToast({
-          message: 'Nuevo tutor agregado',
-          duration: 1500,
-          color: 'success',
-          position:'middle'
-
+          this.cargandoS.presentToast({
+            message: `Nuevo tutor agregado`,
+            duration: 1500,
+            color: 'success',
+            position: 'middle', 
+          })
+        }).catch(error =>{
+          
+          this.cargandoS.presentToast({
+            message: `Error al agregar tutor`,
+            duration: 1500,
+            color: 'danger',
+            position: 'middle', 
+          })
+        }) .finally(() => {
+          loading.dismiss();
         })
 
-      }).catch(error =>{
-        console.log(error);
-
-
-      })
-
-  
-
-    }
-    
   }
-
-
+  }
 }
